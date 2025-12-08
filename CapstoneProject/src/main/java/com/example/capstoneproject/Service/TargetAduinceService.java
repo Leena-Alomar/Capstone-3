@@ -30,7 +30,7 @@ public class TargetAduinceService {
             throw new ApiException("Target Aduince is not found");
         }
         oldTargetAduince.setMinAge(targetAduince.getMinAge());
-        oldTargetAduince.setMinAge(targetAduince.getMaxAge());
+        oldTargetAduince.setMaxAge(targetAduince.getMaxAge());
         oldTargetAduince.setGender(targetAduince.getGender());
         oldTargetAduince.setInterset(targetAduince.getInterset());
         oldTargetAduince.setLocation(targetAduince.getLocation());
