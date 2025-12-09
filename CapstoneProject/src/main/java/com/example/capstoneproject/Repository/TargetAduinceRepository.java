@@ -1,8 +1,8 @@
 package com.example.capstoneproject.Repository;
 
-import com.example.capstoneproject.Model.TargetAduince;
+import com.example.capstoneproject.Model.TargetAudience;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TargetAduinceRepository extends JpaRepository<TargetAduince,Integer> {
-    TargetAduince findTargetAduinceById(Integer id);
+public interface TargetAduinceRepository extends JpaRepository<TargetAudience,Integer> {
+    TargetAudience findTargetAduinceById(Integer id);
 }

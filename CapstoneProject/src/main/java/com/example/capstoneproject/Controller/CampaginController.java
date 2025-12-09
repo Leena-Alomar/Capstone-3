@@ -1,7 +1,7 @@
 package com.example.capstoneproject.Controller;
 
 import com.example.capstoneproject.API.ApiResponse;
-import com.example.capstoneproject.Model.Campagin;
+import com.example.capstoneproject.Model.campaign;
 import com.example.capstoneproject.Service.CampaginService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/campagin")
+@RequestMapping("/api/v1/campaign")
 public class CampaginController {
 
     private final CampaginService campaignService;
@@ -21,14 +21,14 @@ public class CampaginController {
     }
 
     @PostMapping("/add/{projectid}")
-    public ResponseEntity<?>addCampaign(@PathVariable Integer projectid, @RequestBody @Valid Campagin campaign){
+    public ResponseEntity<?>addCampaign(@PathVariable Integer projectid, @RequestBody @Valid campaign campaign){
         campaignService.addCampaign(projectid, campaign);
         return ResponseEntity.ok(new ApiResponse("campaign added successfully"));
     }
 
     @PutMapping("/update/{campaignid}")
-    public ResponseEntity<?>updateCampaign(@PathVariable Integer campaignid, @RequestBody @Valid Campagin campaign){
-        campaignService.addCampaign(campaignid, campaign);
+    public ResponseEntity<?>updateCampaign(@PathVariable Integer campaignid, @RequestBody @Valid campaign campaign){
+        campaignService.updateCampaign(campaignid, campaign);
         return ResponseEntity.ok(new ApiResponse("campaign updated successfully"));
     }
 

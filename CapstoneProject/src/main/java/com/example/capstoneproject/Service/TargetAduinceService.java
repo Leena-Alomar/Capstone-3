@@ -1,8 +1,10 @@
 package com.example.capstoneproject.Service;
 
 import com.example.capstoneproject.API.ApiException;
-import com.example.capstoneproject.Model.TargetAduince;
-import com.example.capstoneproject.Model.User;
+import com.example.capstoneproject.DTO.AudienceDTO;
+import com.example.capstoneproject.Model.TargetAudience;
+import com.example.capstoneproject.Model.campaign;
+import com.example.capstoneproject.Repository.CampaginRepository;
 import com.example.capstoneproject.Repository.TargetAduinceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,35 +16,50 @@ import java.util.List;
 public class TargetAduinceService {
 
     private final TargetAduinceRepository targetAduinceRepository;
+    private final CampaginRepository campaginRepository;
 
-    public List<TargetAduince> findAllUser(){
+    public List<TargetAudience> findAllUser(){
         return targetAduinceRepository.findAll();
     }
 
-    public void addTargetAduince(TargetAduince targetAduince){
-        targetAduinceRepository.save(targetAduince);
+    public void addTargetAduince(Integer campaign_id, AudienceDTO targetAudience){
+        campaign c = campaginRepository.findCampaginById(campaign_id);
+        if (c == null){
+            throw new ApiException("campaign not found");
+        }
+        TargetAudience t = new TargetAudience();
+        t.setCampaign(c);
+        t.setGender(targetAudience.getGender());
+        t.setIncomeLevel(targetAudience.getIncome_level());
+        t.setLocation(targetAudience.getLocation());
+        t.setInterest(targetAudience.getInterest());
+        t.setMinAge(targetAudience.getMin_age());
+        t.setMaxAge(targetAudience.getMax_age());
+        targetAduinceRepository.save(t);
     }
 
-    public void updateTargetAduince(Integer id , TargetAduince targetAduince){
-        TargetAduince oldTargetAduince=targetAduinceRepository.findTargetAduinceById(id);
-
-        if(oldTargetAduince==null){
+    public void updateTargetAduince(Integer id , AudienceDTO targetaudience){
+        TargetAudience oldTargetAudience =targetAduinceRepository.findTargetAduinceById(id);
+        if(oldTargetAudience ==null){
             throw new ApiException("Target Aduince is not found");
         }
-        oldTargetAduince.setMinAge(targetAduince.getMinAge());
-        oldTargetAduince.setMaxAge(targetAduince.getMaxAge());
-        oldTargetAduince.setGender(targetAduince.getGender());
-        oldTargetAduince.setInterset(targetAduince.getInterset());
-        oldTargetAduince.setLocation(targetAduince.getLocation());
-        oldTargetAduince.setIncomeLevel(targetAduince.getIncomeLevel());
-        targetAduinceRepository.save(oldTargetAduince);
+        oldTargetAudience.setMinAge(targetaudience.getMin_age());
+        oldTargetAudience.setMaxAge(targetaudience.getMax_age());
+        oldTargetAudience.setGender(targetaudience.getGender());
+        oldTargetAudience.setInterest(targetaudience.getInterest());
+        oldTargetAudience.setLocation(targetaudience.getLocation());
+        oldTargetAudience.setIncomeLevel(targetaudience.getIncome_level());
+        targetAduinceRepository.save(oldTargetAudience);
     }
 
     public void deleteTargetAduince(Integer id){
-        TargetAduince targetAduince=targetAduinceRepository.findTargetAduinceById(id);
-        if(targetAduince==null){
+        TargetAudience targetaudience =targetAduinceRepository.findTargetAduinceById(id);
+        if(targetaudience ==null){
             throw new ApiException("Target Aduince is not found");
         }
-        targetAduinceRepository.delete(targetAduince);
+        targetAduinceRepository.delete(targetaudience);
+        campaign c = campaginRepository.findCampaginById(id);
+        c.setTargetAudience(null);
+        campaginRepository.save(c);
     }
 }

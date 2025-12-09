@@ -1,6 +1,7 @@
 package com.example.capstoneproject.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -30,13 +31,14 @@ public class User {
     @NotEmpty(message = "the email cannot be empty")
     @Size(min = 6,message = "the email length must be at least value of 6")
     @Column(columnDefinition = "varchar(20) not null unique")
+    @Email
     private String email;
     @NotEmpty(message = "the phone number cannot be empty")
     @Size(min = 10,message = "the phone number length must be value of 10")
     @Column(columnDefinition = "varchar(10) not null")
     private String phoneNumber;
-    private boolean subscription;
+    private Boolean subscription;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL ,mappedBy = "user", orphanRemoval = true)
     private Set<Project> projects;
 }

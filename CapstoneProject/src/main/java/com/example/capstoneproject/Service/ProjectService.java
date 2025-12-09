@@ -26,7 +26,6 @@ public class ProjectService {
         if(user==null){
             throw new ApiException("user not found");
         }
-
         project.setUser(user);
         projectRepository.save(project);
     }
@@ -36,16 +35,9 @@ public class ProjectService {
         if(oldProject==null){
             throw new ApiException("project not found");
         }
-        User user = userRepository.findUserById(project.getUser().getId());
-        if(user==null) {
-            throw new ApiException("user not found");
-        }
-
         oldProject.setName(project.getName());
         oldProject.setDescription(project.getDescription());
         oldProject.setType(project.getType());
-        oldProject.setUser(user);
-
         projectRepository.save(oldProject);
     }
 
@@ -54,7 +46,6 @@ public class ProjectService {
         if(project==null) {
             throw new ApiException("project not found");
         }
-
         projectRepository.delete(project);
     }
 }

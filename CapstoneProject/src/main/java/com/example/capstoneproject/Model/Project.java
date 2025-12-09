@@ -41,5 +41,5 @@ public class Project {
     private Logo logo;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
-    private Set<Campagin> campaigns;
+    private Set<campaign> campaigns;
 }

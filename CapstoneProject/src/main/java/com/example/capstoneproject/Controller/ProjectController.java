@@ -32,9 +32,9 @@ public class ProjectController {
         return ResponseEntity.ok(new ApiResponse("project updated successfully"));
     }
 
-    @DeleteMapping("/delete/{projectid}")
-    public ResponseEntity<?>deleteProjects(@PathVariable Integer projectid){
-        projectService.deleteProject(projectid);
+    @DeleteMapping("/delete/{project_id}")
+    public ResponseEntity<?>deleteProjects(@PathVariable Integer project_id){
+        projectService.deleteProject(project_id);
         return ResponseEntity.ok(new ApiResponse("project deleted successfully"));
     }
 

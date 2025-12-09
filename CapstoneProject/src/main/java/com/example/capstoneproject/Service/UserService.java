@@ -19,6 +19,7 @@ public class UserService {
     }
 
     public void addUser(User user){
+        user.setSubscription(false);
         userRepository.save(user);
     }
 
@@ -32,7 +33,6 @@ public class UserService {
         oldUser.setPassword(user.getPassword());
         oldUser.setEmail(user.getEmail());
         oldUser.setPhoneNumber(user.getPhoneNumber());
-        oldUser.setSubscription(user.isSubscription());
         userRepository.save(oldUser);
     }
 

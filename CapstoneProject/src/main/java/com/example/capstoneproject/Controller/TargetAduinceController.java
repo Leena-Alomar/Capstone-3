@@ -1,9 +1,10 @@
 package com.example.capstoneproject.Controller;
 
 import com.example.capstoneproject.API.ApiResponse;
-import com.example.capstoneproject.Model.TargetAduince;
-import com.example.capstoneproject.Model.User;
+import com.example.capstoneproject.DTO.AudienceDTO;
+import com.example.capstoneproject.Model.TargetAudience;
 import com.example.capstoneproject.Service.TargetAduinceService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,16 +22,16 @@ public class TargetAduinceController {
         return ResponseEntity.status(200).body(targetAduinceService.findAllUser());
     }
 
-    @PostMapping("add")
-    public ResponseEntity<?> addTargetAduince(@RequestBody TargetAduince targetAduince){
-        targetAduinceService.addTargetAduince(targetAduince);
+    @PostMapping("add/{campaign_id}")
+    public ResponseEntity<?> addTargetAduince(@PathVariable Integer campaign_id,@RequestBody @Valid AudienceDTO targetaudience){
+        targetAduinceService.addTargetAduince(campaign_id, targetaudience);
         return ResponseEntity.status(200).body(new ApiResponse("the Target Aduince is added"));
     }
 
 
     @PutMapping("update/{id}")
-    public ResponseEntity<?> updateTargetAduince(@PathVariable Integer id,@RequestBody TargetAduince targetAduince){
-        targetAduinceService.updateTargetAduince(id,targetAduince);
+    public ResponseEntity<?> updateTargetAduince(@PathVariable Integer id,@RequestBody @Valid AudienceDTO targetAudience){
+        targetAduinceService.updateTargetAduince(id, targetAudience);
         return ResponseEntity.status(200).body(new ApiResponse("the Target Aduince is updated"));
     }
 

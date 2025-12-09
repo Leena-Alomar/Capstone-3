@@ -1,7 +1,7 @@
 package com.example.capstoneproject.Service;
 
 import com.example.capstoneproject.API.ApiException;
-import com.example.capstoneproject.Model.Campagin;
+import com.example.capstoneproject.Model.campaign;
 import com.example.capstoneproject.Model.GeneratedContent;
 import com.example.capstoneproject.Repository.CampaginRepository;
 import com.example.capstoneproject.Repository.GeneratedContentRepository;
@@ -22,14 +22,12 @@ public class GeneratedContentService {
     }
 
     public void addContent(Integer campaign_id, GeneratedContent content){
-        Campagin campaign = campaignRepository.findCampaginById(campaign_id);
+        campaign campaign = campaignRepository.findCampaginById(campaign_id);
 
         if(campaign==null){
             throw new ApiException("campaign not found");
         }
-
         content.setCampaign(campaign);
-
         campaignRepository.save(campaign);
     }
 
@@ -40,7 +38,7 @@ public class GeneratedContentService {
             throw new ApiException("content not found");
         }
 
-        Campagin campaign = campaignRepository.findCampaginById(content.getCampaign().getId());
+        campaign campaign = campaignRepository.findCampaginById(content.getCampaign().getId());
 
         if(campaign==null) {
             throw new ApiException("campaign not found");
