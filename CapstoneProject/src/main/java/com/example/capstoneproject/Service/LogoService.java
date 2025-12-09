@@ -31,8 +31,11 @@ public class LogoService
 
     public void save(Integer id, byte[] logo) {
         Project project = projectRepository.findProjectById(id);
+        if(project == null){
+            throw new ApiException("Project not found");
+        }
         Logo l = new Logo();
-        l.setName("generated/logo");
+        l.setName(project.getName()+"_logo");
         l.setType("image/jpeg");
         l.setData(logo);
         l.setProject(project);
