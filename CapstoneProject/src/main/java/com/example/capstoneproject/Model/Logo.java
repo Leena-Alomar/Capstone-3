@@ -18,18 +18,15 @@ import lombok.Setter;
 public class Logo {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotEmpty(message = "the name cannot be empty")
-    @Size(min = 3,message = "the name length must be at least value of 3")
+    @NotEmpty(message = "you have not picked an image")
     @Column(columnDefinition = "varchar(30) not null")
     private String name;
-    @NotEmpty(message = "the data cannot be empty")
-    @Size(min = 3,message = "the data length must be at least value of 3")
-    @Column(columnDefinition = "varchar(50) not null")
-    private String data;
-    @NotEmpty(message = "the type cannot be empty")
-    @Size(min = 4,message = "the type length must be at least value of 4")
-    @Column(columnDefinition = "varchar(15) not null")
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] data;
     private String type;
 
     @OneToOne
