@@ -100,4 +100,25 @@ public class GeneratedContentService {
         newContent.setCampaign(campaign);
         generatedContentRepository.save(newContent);
     }
+
+    public void summarizeContent(Integer content_id){
+        GeneratedContent content = generatedContentRepository.findGeneratedContentById(content_id);
+        if(content==null){
+            throw new ApiException("content not found");
+        }
+
+        GeneratedContent summarizedContent = aiService.summarizedContent(content);
+        generatedContentRepository.save(summarizedContent);
+    }
+
+    public void translateContent(Integer content_id, String language){
+        GeneratedContent content = generatedContentRepository.findGeneratedContentById(content_id);
+        if(content==null){
+            throw new ApiException("content not found");
+        }
+
+        GeneratedContent translatedContent = aiService.translateContent(content, language);
+        generatedContentRepository.save(translatedContent);
+    }
+
 }

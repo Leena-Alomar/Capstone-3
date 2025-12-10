@@ -16,8 +16,20 @@ public class AIService {
     private final AIResponseParser parser;
 
     public GeneratedContent generateContent(CampaignContentDTO dto){
-        String prompt = promptBuilder.buildPrompt(dto);
+        String prompt = promptBuilder.generateNewContent(dto);
         String response = huggingFaceClient.generateText(prompt);
-        return parser.generateContent(response); }
+        return parser.generateContent(response);
+    }
 
+    public GeneratedContent summarizedContent(GeneratedContent content){
+        String prompt = promptBuilder.summarizeContent(content);
+        String response = huggingFaceClient.generateText(prompt);
+        return parser.generateContent(response);
+    }
+
+    public GeneratedContent translateContent(GeneratedContent content, String language){
+        String prompt = promptBuilder.translateContent(content,language);
+        String response = huggingFaceClient.generateText(prompt);
+        return parser.generateContent(response);
+    }
 }

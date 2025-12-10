@@ -54,6 +54,9 @@ public class Campaign {
     @Pattern(regexp="^(?i)(Draft|Running|Completed)$",message = "status must be one of these status: Draft, Running or Completed")
     private String status;
 
+    @Column(columnDefinition = "int")
+    private Integer rejectCounter =0;
+
     @OneToOne(cascade = CascadeType.ALL,mappedBy = "campaign")
     @PrimaryKeyJoinColumn
     private TargetAudience targetAudience;

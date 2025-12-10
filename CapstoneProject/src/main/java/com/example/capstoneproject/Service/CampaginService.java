@@ -62,4 +62,6 @@ public class CampaginService {
 
         campaginRepository.delete(campaign);
     }
+
+
 }

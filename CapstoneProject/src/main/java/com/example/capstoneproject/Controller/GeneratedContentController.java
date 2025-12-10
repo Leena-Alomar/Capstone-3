@@ -39,9 +39,22 @@ public class GeneratedContentController {
         return ResponseEntity.ok(new ApiResponse("content deleted successfully"));
     }
 
-    @PostMapping("/generate-content/{campaignid}")
-    public ResponseEntity<?>addContent(@PathVariable Integer campaignid){
+    @PostMapping("/generate-new/{campaignid}")
+    public ResponseEntity<?>generateNewContent(@PathVariable Integer campaignid){
         generatedContentService.generateNewContent(campaignid);
-        return ResponseEntity.ok(new ApiResponse("content added successfully"));
+        return ResponseEntity.ok(new ApiResponse("content generated successfully"));
     }
+
+    @PostMapping("/summarize/{contentid}")
+    public ResponseEntity<?>summarizeContent(@PathVariable Integer contentid){
+        generatedContentService.summarizeContent(contentid);
+        return ResponseEntity.ok(new ApiResponse("content summarized successfully"));
+    }
+
+    @PostMapping("/translate/{contentid}/{language}")
+    public ResponseEntity<?>translateContent(@PathVariable Integer contentid,@PathVariable String language){
+        generatedContentService.translateContent(contentid, language);
+        return ResponseEntity.ok(new ApiResponse("content translated successfully"));
+    }
+
 }
