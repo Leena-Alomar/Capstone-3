@@ -2,7 +2,7 @@ package com.example.capstoneproject.Controller;
 
 import com.example.capstoneproject.API.ApiResponse;
 import com.example.capstoneproject.Model.Campaign;
-import com.example.capstoneproject.Service.CampaginService;
+import com.example.capstoneproject.Service.CampaignService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/campaign")
 public class CampaginController {
 
-    private final CampaginService campaignService;
+    private final CampaignService campaignService;
 
     @GetMapping("/get")
     public ResponseEntity<?> getCampaigns(){
