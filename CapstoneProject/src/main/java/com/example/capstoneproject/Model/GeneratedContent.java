@@ -19,7 +19,7 @@ public class GeneratedContent {
     private Integer id;
     @Column(columnDefinition = "varchar(50) ")
     private String title;
-    @Column(columnDefinition="varchar(200) ")
+    @Column(columnDefinition="varchar(500) ")
     private String content;
     @Pattern(regexp="^(Post|Caption|Script)$",message = "Type must be one of these types: Post, Caption or Script")
     private String type;

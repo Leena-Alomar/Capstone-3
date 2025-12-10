@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 public class HuggingFaceClient {
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @Value("${}")
+    @Value("${huggingface.api.key}")
     private String apiKey;
 
     @Value("${huggingface.model.name}")
