@@ -21,8 +21,12 @@ public class GeneratedContent {
     private String title;
     @Column(columnDefinition="varchar(500) ")
     private String content;
+    @Column(columnDefinition = "varchar(8) ")
     @Pattern(regexp="^(Post|Caption|Script)$",message = "Type must be one of these types: Post, Caption or Script")
     private String type;
+
+    @Pattern(regexp="^(?i)(Draft|Approved|Rejected)$",message = "status must be one of these status: Draft, Approved or rejected")
+    private String status="Drift";
 
     @ManyToOne
     @JsonIgnore

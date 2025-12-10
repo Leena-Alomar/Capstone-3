@@ -2,14 +2,8 @@ package com.example.capstoneproject.Service;
 
 import com.example.capstoneproject.API.ApiException;
 import com.example.capstoneproject.DTO.CampaignContentDTO;
-import com.example.capstoneproject.Model.Campaign;
-import com.example.capstoneproject.Model.GeneratedContent;
-import com.example.capstoneproject.Model.Project;
-import com.example.capstoneproject.Model.TargetAudience;
-import com.example.capstoneproject.Repository.CampaginRepository;
-import com.example.capstoneproject.Repository.GeneratedContentRepository;
-import com.example.capstoneproject.Repository.ProjectRepository;
-import com.example.capstoneproject.Repository.TargetAduinceRepository;
+import com.example.capstoneproject.Model.*;
+import com.example.capstoneproject.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,17 +14,18 @@ import java.util.List;
 public class GeneratedContentService {
 
     private final GeneratedContentRepository generatedContentRepository;
-    private final CampaginRepository campaignRepository;
+    private final CampaignRepository campaignRepository;
     private final ProjectRepository projectRepository;
     private final TargetAduinceRepository targetAduinceRepository;
     private final AIService aiService;
+    private final UserRepository userRepository;
 
     public List<GeneratedContent> getAllGeneratedContent(){
         return generatedContentRepository.findAll();
     }
 
     public void addContent(Integer campaign_id, GeneratedContent content){
-        Campaign campaign = campaignRepository.findCampaginById(campaign_id);
+        Campaign campaign = campaignRepository.findCampaignById(campaign_id);
 
         if(campaign==null){
             throw new ApiException("campaign not found");
@@ -46,7 +41,7 @@ public class GeneratedContentService {
             throw new ApiException("content not found");
         }
 
-        Campaign campaign = campaignRepository.findCampaginById(content.getCampaign().getId());
+        Campaign campaign = campaignRepository.findCampaignById(content.getCampaign().getId());
 
         if(campaign==null) {
             throw new ApiException("campaign not found");
@@ -69,7 +64,7 @@ public class GeneratedContentService {
     }
 
     public void generateNewContent(Integer campaign_id){
-        Campaign campaign = campaignRepository.findCampaginById(campaign_id);
+        Campaign campaign = campaignRepository.findCampaignById(campaign_id);
         if(campaign==null){
             throw new ApiException("campaign not found");
         }
@@ -78,6 +73,17 @@ public class GeneratedContentService {
         TargetAudience audience = targetAduinceRepository.findTargetAduinceById(campaign.getTargetAudience().getId());
         if(project==null||audience==null){
             throw new ApiException("project or target audience not found");
+        }
+
+        User user = userRepository.findUserById(project.getUser().getId());
+        if(user==null){
+            throw new ApiException("user not found");
+        }
+
+        if(!user.getSubscription()){
+            if(user.getCreatedCounter()>5){
+                throw new ApiException("you need to subscribe for more content");
+            }
         }
 
         CampaignContentDTO dto= new CampaignContentDTO();
@@ -97,8 +103,10 @@ public class GeneratedContentService {
 
         GeneratedContent newContent = aiService.generateContent(dto);
 
-        newContent.setCampaign(campaign);
+        newContent.setStatus("Drift");
         generatedContentRepository.save(newContent);
+        user.setCreatedCounter(user.getCreatedCounter()+1);
+        userRepository.save(user);
     }
 
     public void summarizeContent(Integer content_id){
@@ -119,6 +127,30 @@ public class GeneratedContentService {
 
         GeneratedContent translatedContent = aiService.translateContent(content, language);
         generatedContentRepository.save(translatedContent);
+    }
+
+    public void approveContent(Integer content_id,Integer campaign_id){
+        GeneratedContent content = generatedContentRepository.findGeneratedContentById(content_id);
+        Campaign campaign = campaignRepository.findCampaignById(campaign_id);
+
+        if(campaign==null||content==null){
+            throw new ApiException("campaign or content not found");
+        }
+
+        content.setStatus("Approved");
+        content.setCampaign(campaign);
+        generatedContentRepository.save(content);
+    }
+
+    public void rejectContent(Integer content_id){
+        GeneratedContent content = generatedContentRepository.findGeneratedContentById(content_id);
+
+        if(content==null){
+            throw new ApiException("content not found");
+        }
+
+        content.setStatus("Rejected");
+        generatedContentRepository.save(content);
     }
 
 }

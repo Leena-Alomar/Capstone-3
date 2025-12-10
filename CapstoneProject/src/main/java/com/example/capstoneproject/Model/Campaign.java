@@ -50,12 +50,12 @@ public class Campaign {
     @Column(columnDefinition="date")
     private LocalDate endDate;
 
-    @Column(columnDefinition="varchar(25)")
-    @Pattern(regexp="^(?i)(Draft|Running|Completed)$",message = "status must be one of these status: Draft, Running or Completed")
-    private String status;
-
     @Column(columnDefinition = "int")
-    private Integer rejectCounter =0;
+    private Integer durationDays;
+
+    @Column(columnDefinition="varchar(25)")
+    @Pattern(regexp="^(?i)(Draft|Running|Completed)$",message = "status must be: Draft, Running or Completed")
+    private String status;
 
     @OneToOne(cascade = CascadeType.ALL,mappedBy = "campaign")
     @PrimaryKeyJoinColumn
