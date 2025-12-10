@@ -1,11 +1,11 @@
 package com.example.capstoneproject.Repository;
 
-import com.example.capstoneproject.Model.campaign;
+import com.example.capstoneproject.Model.Campaign;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CampaginRepository extends JpaRepository<campaign, Integer> {
+public interface CampaginRepository extends JpaRepository<Campaign, Integer> {
 
-    campaign findCampaginById(Integer id);
+    Campaign findCampaginById(Integer id);
 }

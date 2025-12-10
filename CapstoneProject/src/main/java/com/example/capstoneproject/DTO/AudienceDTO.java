@@ -1,6 +1,5 @@
 package com.example.capstoneproject.DTO;
 
-import com.example.capstoneproject.Model.campaign;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

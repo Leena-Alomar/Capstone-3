@@ -38,4 +38,10 @@ public class GeneratedContentController {
         generatedContentService.deleteContent(contentid);
         return ResponseEntity.ok(new ApiResponse("content deleted successfully"));
     }
+
+    @PostMapping("/generate-content/{campaignid}")
+    public ResponseEntity<?>addContent(@PathVariable Integer campaignid){
+        generatedContentService.generateNewContent(campaignid);
+        return ResponseEntity.ok(new ApiResponse("content added successfully"));
+    }
 }

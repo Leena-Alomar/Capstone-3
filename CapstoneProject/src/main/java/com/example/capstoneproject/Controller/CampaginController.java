@@ -1,7 +1,7 @@
 package com.example.capstoneproject.Controller;
 
 import com.example.capstoneproject.API.ApiResponse;
-import com.example.capstoneproject.Model.campaign;
+import com.example.capstoneproject.Model.Campaign;
 import com.example.capstoneproject.Service.CampaginService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +21,13 @@ public class CampaginController {
     }
 
     @PostMapping("/add/{projectid}")
-    public ResponseEntity<?>addCampaign(@PathVariable Integer projectid, @RequestBody @Valid campaign campaign){
+    public ResponseEntity<?>addCampaign(@PathVariable Integer projectid, @RequestBody @Valid Campaign campaign){
         campaignService.addCampaign(projectid, campaign);
         return ResponseEntity.ok(new ApiResponse("campaign added successfully"));
     }
 
     @PutMapping("/update/{campaignid}")
-    public ResponseEntity<?>updateCampaign(@PathVariable Integer campaignid, @RequestBody @Valid campaign campaign){
+    public ResponseEntity<?>updateCampaign(@PathVariable Integer campaignid, @RequestBody @Valid Campaign campaign){
         campaignService.updateCampaign(campaignid, campaign);
         return ResponseEntity.ok(new ApiResponse("campaign updated successfully"));
     }

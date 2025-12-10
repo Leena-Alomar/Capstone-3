@@ -18,7 +18,7 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
-public class campaign {
+public class Campaign {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

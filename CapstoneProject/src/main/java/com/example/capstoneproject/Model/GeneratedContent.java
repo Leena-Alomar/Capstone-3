@@ -26,5 +26,5 @@ public class GeneratedContent {
 
     @ManyToOne
     @JsonIgnore
-    private campaign campaign;
+    private Campaign campaign;
 }

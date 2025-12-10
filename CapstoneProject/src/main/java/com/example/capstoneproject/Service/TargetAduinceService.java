@@ -3,7 +3,7 @@ package com.example.capstoneproject.Service;
 import com.example.capstoneproject.API.ApiException;
 import com.example.capstoneproject.DTO.AudienceDTO;
 import com.example.capstoneproject.Model.TargetAudience;
-import com.example.capstoneproject.Model.campaign;
+import com.example.capstoneproject.Model.Campaign;
 import com.example.capstoneproject.Repository.CampaginRepository;
 import com.example.capstoneproject.Repository.TargetAduinceRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class TargetAduinceService {
     }
 
     public void addTargetAduince(Integer campaign_id, AudienceDTO targetAudience){
-        campaign c = campaginRepository.findCampaginById(campaign_id);
+        Campaign c = campaginRepository.findCampaginById(campaign_id);
         if (c == null){
             throw new ApiException("campaign not found");
         }
@@ -58,7 +58,7 @@ public class TargetAduinceService {
             throw new ApiException("Target Aduince is not found");
         }
         targetAduinceRepository.delete(targetaudience);
-        campaign c = campaginRepository.findCampaginById(id);
+        Campaign c = campaginRepository.findCampaginById(id);
         c.setTargetAudience(null);
         campaginRepository.save(c);
     }

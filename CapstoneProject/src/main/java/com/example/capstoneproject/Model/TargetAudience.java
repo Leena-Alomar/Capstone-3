@@ -33,5 +33,5 @@ public class TargetAudience {
     @OneToOne
     @MapsId
     @JsonIgnore
-    private campaign campaign;
+    private Campaign campaign;
 }
