@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @Getter
 @Setter
@@ -27,6 +29,9 @@ public class GeneratedContent {
 
     @Pattern(regexp="^(?i)(Draft|Approved|Rejected)$",message = "status must be one of these status: Draft, Approved or rejected")
     private String status="Drift";
+
+    @Column(columnDefinition = "timestamp")
+    private LocalDateTime statusChanged;
 
     @ManyToOne
     @JsonIgnore

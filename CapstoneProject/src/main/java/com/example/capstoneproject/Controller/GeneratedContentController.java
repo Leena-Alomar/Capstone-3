@@ -66,7 +66,7 @@ public class GeneratedContentController {
     @PutMapping("/reject/{contentid}/")
     public ResponseEntity<?>rejectContent(@PathVariable Integer contentid){
         generatedContentService.rejectContent(contentid);
-        return ResponseEntity.ok(new ApiResponse("content has been rejected"));
+        return ResponseEntity.ok(new ApiResponse("content will be deleted in 3 days"));
     }
 
 }

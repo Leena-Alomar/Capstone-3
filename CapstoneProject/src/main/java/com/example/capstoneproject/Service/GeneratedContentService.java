@@ -7,6 +7,7 @@ import com.example.capstoneproject.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -104,6 +105,7 @@ public class GeneratedContentService {
         GeneratedContent newContent = aiService.generateContent(dto);
 
         newContent.setStatus("Drift");
+        newContent.setStatusChanged(LocalDateTime.now());
         generatedContentRepository.save(newContent);
         user.setCreatedCounter(user.getCreatedCounter()+1);
         userRepository.save(user);
@@ -138,6 +140,7 @@ public class GeneratedContentService {
         }
 
         content.setStatus("Approved");
+        content.setStatusChanged(LocalDateTime.now());
         content.setCampaign(campaign);
         generatedContentRepository.save(content);
     }
@@ -150,6 +153,7 @@ public class GeneratedContentService {
         }
 
         content.setStatus("Rejected");
+        content.setStatusChanged(LocalDateTime.now());
         generatedContentRepository.save(content);
     }
 
