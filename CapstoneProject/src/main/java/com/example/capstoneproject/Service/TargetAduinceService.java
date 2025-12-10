@@ -4,7 +4,7 @@ import com.example.capstoneproject.API.ApiException;
 import com.example.capstoneproject.DTO.AudienceDTO;
 import com.example.capstoneproject.Model.TargetAudience;
 import com.example.capstoneproject.Model.Campaign;
-import com.example.capstoneproject.Repository.CampaginRepository;
+import com.example.capstoneproject.Repository.CampaignRepository;
 import com.example.capstoneproject.Repository.TargetAduinceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,14 +16,14 @@ import java.util.List;
 public class TargetAduinceService {
 
     private final TargetAduinceRepository targetAduinceRepository;
-    private final CampaginRepository campaginRepository;
+    private final CampaignRepository campaignRepository;
 
     public List<TargetAudience> findAllUser(){
         return targetAduinceRepository.findAll();
     }
 
     public void addTargetAduince(Integer campaign_id, AudienceDTO targetAudience){
-        Campaign c = campaginRepository.findCampaginById(campaign_id);
+        Campaign c = campaignRepository.findCampaignById(campaign_id);
         if (c == null){
             throw new ApiException("campaign not found");
         }
@@ -58,8 +58,8 @@ public class TargetAduinceService {
             throw new ApiException("Target Aduince is not found");
         }
         targetAduinceRepository.delete(targetaudience);
-        Campaign c = campaginRepository.findCampaginById(id);
+        Campaign c = campaignRepository.findCampaignById(id);
         c.setTargetAudience(null);
-        campaginRepository.save(c);
+        campaignRepository.save(c);
     }
 }

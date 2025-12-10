@@ -57,4 +57,16 @@ public class GeneratedContentController {
         return ResponseEntity.ok(new ApiResponse("content translated successfully"));
     }
 
+    @PutMapping("/approve/{contentid}/{campaignid}")
+    public ResponseEntity<?>approveContent(@PathVariable Integer contentid,@PathVariable Integer campaignid){
+        generatedContentService.approveContent(contentid, campaignid);
+        return ResponseEntity.ok(new ApiResponse("content approved successfully"));
+    }
+
+    @PutMapping("/reject/{contentid}/")
+    public ResponseEntity<?>rejectContent(@PathVariable Integer contentid){
+        generatedContentService.rejectContent(contentid);
+        return ResponseEntity.ok(new ApiResponse("content has been rejected"));
+    }
+
 }
