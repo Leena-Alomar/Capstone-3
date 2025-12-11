@@ -38,5 +38,11 @@ public class UserController {
         return ResponseEntity.status(200).body(new ApiResponse("the User is deleted"));
     }
 
+    @PutMapping("/subscribe/{id}")
+    public ResponseEntity<?> subscribeUser(@PathVariable Integer id){
+        userService.subscribe(id);
+        return ResponseEntity.status(200).body(new ApiResponse("the User is subscribed"));
+    }
+
 
 }
