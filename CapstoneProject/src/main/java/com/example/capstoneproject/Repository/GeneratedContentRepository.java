@@ -12,5 +12,8 @@ public interface GeneratedContentRepository extends JpaRepository<GeneratedConte
     GeneratedContent findGeneratedContentById(Integer id);
 
     List<GeneratedContent> findGeneratedContentByCampaign(Campaign campaign);
+
+    List<GeneratedContent> findGeneratedContentByStatus(String status);
 }
+
 
