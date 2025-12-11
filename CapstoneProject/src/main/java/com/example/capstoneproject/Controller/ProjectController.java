@@ -1,6 +1,7 @@
 package com.example.capstoneproject.Controller;
 
 import com.example.capstoneproject.API.ApiResponse;
+import com.example.capstoneproject.DTO.ProjectDTO;
 import com.example.capstoneproject.Model.Project;
 import com.example.capstoneproject.Service.ProjectService;
 import jakarta.validation.Valid;
@@ -21,7 +22,7 @@ public class ProjectController {
     }
 
     @PostMapping("/add/{userid}")
-    public ResponseEntity<?>addProjects(@PathVariable Integer userid, @RequestBody @Valid Project project){
+    public ResponseEntity<?>addProjects(@PathVariable Integer userid, @RequestBody @Valid ProjectDTO project){
         projectService.addProject(userid, project);
         return ResponseEntity.ok(new ApiResponse("project added successfully"));
     }

@@ -6,10 +6,9 @@ import com.example.capstoneproject.XApi.DTOs.XUserDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
-public class EnrichmentService {
+public class XEnrichmentService {
 
     public EnrichedUser enrich(XUserDTO user) {
         EnrichedUser eu = new EnrichedUser();

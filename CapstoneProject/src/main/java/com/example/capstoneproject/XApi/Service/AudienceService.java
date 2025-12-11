@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class AudienceService {
 
     private final XClient xClient;
-    private final EnrichmentService enrichmentService;
+    private final XEnrichmentService XEnrichmentService;
 
 
 
@@ -25,7 +25,7 @@ public class AudienceService {
                 .flatMap(user -> xClient.getFollowersSample(user.getId(), limit))
                 .map(followers -> {
                     List<EnrichedUser> enriched = followers.stream()
-                            .map(enrichmentService::enrich)
+                            .map(XEnrichmentService::enrich)
                             .collect(Collectors.toList());
 
                     AudienceSummaryDto dto = new AudienceSummaryDto();

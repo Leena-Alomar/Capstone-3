@@ -25,4 +25,6 @@ public class WebClientConfig {
                 .exchangeStrategies(strategies)
                 .build();
     }
+
+
 }
