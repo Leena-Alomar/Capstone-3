@@ -69,4 +69,22 @@ public class GeneratedContentController {
         return ResponseEntity.ok(new ApiResponse("content will be deleted in 3 days"));
     }
 
+    @PostMapping("/trend/{campaignid}")
+    public ResponseEntity<?>trendContent(@PathVariable Integer campaignid){
+        generatedContentService.trendBasedContentGenerate(campaignid);
+        return ResponseEntity.ok(new ApiResponse("content generated successfully"));
+    }
+
+    @GetMapping("/evaluation/{contentid}/{campaignid}")
+    public ResponseEntity<?>evaluateContent(@PathVariable Integer contentid,@PathVariable Integer campaignid){
+        return ResponseEntity.ok(generatedContentService.evaluateContent(contentid, campaignid));
+    }
+
+    @GetMapping("/check-culture/{contentid}/{culture}")
+    public ResponseEntity<?>evaluateContent(@PathVariable Integer contentid,@PathVariable String culture){
+        return ResponseEntity.ok(generatedContentService.checkCulture(contentid, culture));
+    }
+
+
+
 }

@@ -2,6 +2,7 @@ package com.example.capstoneproject.Service;
 
 import com.example.capstoneproject.API.ApiException;
 import com.example.capstoneproject.DTO.CampaignContentDTO;
+import com.example.capstoneproject.DTO.EvaluateDTO;
 import com.example.capstoneproject.Model.*;
 import com.example.capstoneproject.Repository.*;
 import lombok.RequiredArgsConstructor;
@@ -104,7 +105,7 @@ public class GeneratedContentService {
 
         GeneratedContent newContent = aiService.generateContent(dto);
 
-        newContent.setStatus("Drift");
+        newContent.setStatus("Draft");
         newContent.setStatusChanged(LocalDateTime.now());
         generatedContentRepository.save(newContent);
         user.setCreatedCounter(user.getCreatedCounter()+1);
@@ -129,6 +130,115 @@ public class GeneratedContentService {
 
         GeneratedContent translatedContent = aiService.translateContent(content, language);
         generatedContentRepository.save(translatedContent);
+    }
+
+    public void trendBasedContentGenerate(Integer campaign_id){
+        Campaign campaign = campaignRepository.findCampaignById(campaign_id);
+        if(campaign==null){
+            throw new ApiException("campaign not found");
+        }
+
+        Project project = projectRepository.findProjectById(campaign.getProject().getId());
+        TargetAudience audience = targetAduinceRepository.findTargetAduinceById(campaign.getTargetAudience().getId());
+        if(project==null||audience==null){
+            throw new ApiException("project or target audience not found");
+        }
+
+        User user = userRepository.findUserById(project.getUser().getId());
+        if(user==null){
+            throw new ApiException("user not found");
+        }
+
+        if(!user.getSubscription()){
+            if(user.getCreatedCounter()>5){
+                throw new ApiException("you need to subscribe for more content");
+            }
+        }
+
+        CampaignContentDTO dto= new CampaignContentDTO();
+        dto.setProjectName(project.getName());
+        dto.setProjectDescription(project.getDescription());
+        dto.setProjectType(project.getType());
+        dto.setCampaignName(campaign.getName());
+        dto.setCampaignDescription(campaign.getDescription());
+        dto.setPlatform(campaign.getPlatform());
+        dto.setGoal(campaign.getGoal());
+        dto.setTargetAudienceMinAge(audience.getMinAge());
+        dto.setTargetAudienceMaxAge(audience.getMaxAge());
+        dto.setTargetAudienceGender(audience.getGender());
+        dto.setTargetInterest(audience.getInterest());
+        dto.setTargetAudienceLocation(audience.getLocation());
+        dto.setTargetAudienceIncomeLevel(audience.getIncomeLevel());
+
+        GeneratedContent newContent = aiService.trendGenerateContent(dto);
+
+        newContent.setStatus("Draft");
+        newContent.setStatusChanged(LocalDateTime.now());
+        generatedContentRepository.save(newContent);
+        user.setCreatedCounter(user.getCreatedCounter()+1);
+        userRepository.save(user);
+    }
+
+    public EvaluateDTO evaluateContent(Integer content_id,Integer campaign_id){
+        GeneratedContent content = generatedContentRepository.findGeneratedContentById(content_id);
+        if(content==null){
+            throw new ApiException("content not found");
+        }
+        Campaign campaign = campaignRepository.findCampaignById(campaign_id);
+        if(campaign==null){
+            throw new ApiException("campaign not found");
+        }
+
+        Project project = projectRepository.findProjectById(campaign.getProject().getId());
+        TargetAudience audience = targetAduinceRepository.findTargetAduinceById(campaign.getTargetAudience().getId());
+        if(project==null||audience==null){
+            throw new ApiException("project or target audience not found");
+        }
+
+        User user = userRepository.findUserById(project.getUser().getId());
+        if(user==null){
+            throw new ApiException("user not found");
+        }
+
+        if(!user.getSubscription()){
+            if(user.getCreatedCounter()>5){
+                throw new ApiException("you need to subscribe evaluate new content");
+            }
+        }
+
+        CampaignContentDTO dto= new CampaignContentDTO();
+        dto.setProjectName(project.getName());
+        dto.setProjectDescription(project.getDescription());
+        dto.setProjectType(project.getType());
+        dto.setCampaignName(campaign.getName());
+        dto.setCampaignDescription(campaign.getDescription());
+        dto.setPlatform(campaign.getPlatform());
+        dto.setGoal(campaign.getGoal());
+        dto.setTargetAudienceMinAge(audience.getMinAge());
+        dto.setTargetAudienceMaxAge(audience.getMaxAge());
+        dto.setTargetAudienceGender(audience.getGender());
+        dto.setTargetInterest(audience.getInterest());
+        dto.setTargetAudienceLocation(audience.getLocation());
+        dto.setTargetAudienceIncomeLevel(audience.getIncomeLevel());
+
+        EvaluateDTO evaluation= aiService.evaluateContent(content,dto);
+        if(evaluation==null){
+            throw new ApiException("some thing went rong with this evaluation");
+        }
+        return evaluation;
+    }
+
+    public EvaluateDTO checkCulture(Integer content_id,String culture) {
+        GeneratedContent content = generatedContentRepository.findGeneratedContentById(content_id);
+        if (content == null) {
+            throw new ApiException("content not found");
+        }
+
+        EvaluateDTO evaluation= aiService.checkForCulture(content,culture);
+        if(evaluation==null){
+            throw new ApiException("some thing went rong with this evaluation");
+        }
+        return evaluation;
     }
 
     public void approveContent(Integer content_id,Integer campaign_id){
