@@ -3,10 +3,9 @@ package com.example.capstoneproject.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Getter
@@ -26,7 +25,9 @@ public class GeneratedContent {
     private String type;
 
     @Pattern(regexp="^(?i)(Draft|Approved|Rejected)$",message = "status must be one of these status: Draft, Approved or rejected")
-    private String status="Drift";
+    private String status="Draft";
+
+    private LocalDateTime statusChange;
 
     @ManyToOne
     @JsonIgnore

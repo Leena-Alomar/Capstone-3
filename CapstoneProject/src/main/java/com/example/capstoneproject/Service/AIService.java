@@ -1,12 +1,18 @@
 package com.example.capstoneproject.Service;
 
 import com.example.capstoneproject.DTO.CampaignContentDTO;
+import com.example.capstoneproject.DTO.EvaluationDTO;
 import com.example.capstoneproject.HuggingFaceIntegration.AIResponseParser;
 import com.example.capstoneproject.HuggingFaceIntegration.HuggingFaceClient;
 import com.example.capstoneproject.HuggingFaceIntegration.PromptBuilder;
 import com.example.capstoneproject.Model.GeneratedContent;
+import org.springframework.beans.factory.annotation.Value;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -32,4 +38,56 @@ public class AIService {
         String response = huggingFaceClient.generateText(prompt);
         return parser.generateContent(response);
     }
+    @Value("${openai.api.key}")
+    private String apiKey;
+
+    private final WebClient webClient = WebClient.builder()
+            .baseUrl("https://api.openai.com/v1/responses")
+            .build();
+
+    public String askAI(String prompt) {
+        Map<String, Object> message = Map.of(
+                "role", "user",
+                "content", prompt
+        );
+
+        Map<String, Object> requestBody = Map.of(
+                "model", "gpt-4o-mini",
+                "input", List.of(message)
+        );
+
+        String result = webClient.post()
+                .uri("https://api.openai.com/v1/responses")
+                .header("Authorization", "Bearer " + apiKey)
+                .header("Content-Type", "application/json")
+                .bodyValue(requestBody)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+
+        System.out.println("\n\n================ RAW AI RESPONSE ================\n");
+        System.out.println(result);
+        System.out.println("\n=================================================\n");
+
+        return result;
+    }
+
+    public GeneratedContent trendGenerateContent(CampaignContentDTO dto) {
+        String prompt = promptBuilder.trendBasedContentGeneration(dto);
+        String response = askAI(prompt);
+        return parser.generatedContentOpenAi(response);
+    }
+
+    public EvaluationDTO evaluate(GeneratedContent content, CampaignContentDTO dto) {
+        String prompt = promptBuilder.evaluateContent(content, dto);
+        String response = askAI(prompt);
+        return parser.evaluation(response);
+    }
+
+    public EvaluationDTO checkCulture(GeneratedContent content, String culture){
+        String prompt = promptBuilder.checkCulture(content, culture);
+        String response = askAI(prompt);
+        return parser.evaluation(response);
+    }
+
 }
