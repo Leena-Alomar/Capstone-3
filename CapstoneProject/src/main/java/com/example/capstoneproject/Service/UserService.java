@@ -43,4 +43,16 @@ public class UserService {
         }
         userRepository.delete(user);
     }
+
+    public void subscribe(Integer id){
+        User u = userRepository.findUserById(id);
+        if(u==null){
+            throw new ApiException("User is not found");
+        }
+        if (u.getSubscription()){
+            throw new ApiException("User is already subscribed");
+        }
+        u.setSubscription(true);
+        userRepository.save(u);
+    }
 }

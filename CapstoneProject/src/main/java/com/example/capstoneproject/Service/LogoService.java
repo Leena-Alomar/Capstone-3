@@ -4,14 +4,17 @@ import com.example.capstoneproject.AI.Service.AiLogoService;
 import com.example.capstoneproject.API.ApiException;
 import com.example.capstoneproject.Model.Logo;
 import com.example.capstoneproject.Model.Project;
+import com.example.capstoneproject.Model.User;
 import com.example.capstoneproject.Repository.LogoRepository;
 import com.example.capstoneproject.Repository.ProjectRepository;
+import com.example.capstoneproject.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +22,7 @@ public class LogoService
 {
     private final LogoRepository logoRepository;
     private final ProjectRepository projectRepository;
+    private final UserRepository userRepository;
 
 
     public List<Logo> getAllLogos() {
@@ -29,8 +33,11 @@ public class LogoService
         return logos;
     }
 
-    public void save(Integer id, byte[] logo) {
+    public void save(Integer user_id,Integer id, byte[] logo) {
         Project project = projectRepository.findProjectById(id);
+        if (!Objects.equals(project.getUser().getId(), user_id)) {
+            throw new ApiException("this project doesnt belong to this user");
+        }
         if(project == null){
             throw new ApiException("Project not found");
         }
