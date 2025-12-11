@@ -42,4 +42,7 @@ public class Project {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private Set<Campaign> Campaigns;
+
+    @ManyToOne
+    private Category category;
 }

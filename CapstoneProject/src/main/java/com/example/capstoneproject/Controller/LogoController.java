@@ -60,8 +60,4 @@ public class LogoController
                 .body(logo);
     }
 
-    @PostMapping("/test")
-    public ResponseEntity<?> generateLogoTest(@RequestBody String description ) {
-        return ResponseEntity.status(200).body(aiLogoService.generateImageTest(description));
-    }
 }
