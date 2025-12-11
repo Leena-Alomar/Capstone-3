@@ -16,6 +16,13 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
+    @GetMapping("/ask/{id}")
+    public ResponseEntity<?> askAI(@PathVariable Integer id){
+        String answer = projectService.feasibilityStudy(id);
+        return ResponseEntity.status(200).body(answer);
+
+    }
+
     @GetMapping("/get")
     public ResponseEntity<?> getProjects(){
         return ResponseEntity.ok(projectService.getAllProjects());

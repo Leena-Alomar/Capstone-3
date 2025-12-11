@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ProjectRepository extends JpaRepository<Project,Integer> {
-    @Query("select p from Project p where p.id = :id")
-    Project findProjectById(@Param("id")Integer id);
+    Project findProjectById(Integer id);
 
     @Query("select p from Project p join p.logo l where l.id = :id")
     Project findProjectByLogoId(Integer id);
+
+    @Query("select c from Project c join c.packaging p where p.id =:id")
+    Project findProjectByPackagingId(@Param("id")Integer packagingId);
 }

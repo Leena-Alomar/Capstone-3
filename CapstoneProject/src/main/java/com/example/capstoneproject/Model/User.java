@@ -3,6 +3,7 @@ package com.example.capstoneproject.Model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,6 +27,7 @@ public class User {
     private String name;
     @NotEmpty(message = "the password cannot be empty")
     @Size(min = 3,message = "the password length must be at least value of 3")
+    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d).+$",message = "the password must contain both digits and characters")
     @Column(columnDefinition = "varchar(25) not null")
     private String password;
     @NotEmpty(message = "the email cannot be empty")

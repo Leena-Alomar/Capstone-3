@@ -15,6 +15,46 @@ public class CampaignController {
 
     private final CampaignService campaignService;
 
+
+    @GetMapping("/audience/{id}")
+    public ResponseEntity<?> campaginAudince(@PathVariable Integer id){
+        String answer = campaignService.campaginCheckAudience(id);
+        return ResponseEntity.status(200).body(answer);
+
+    }
+
+    @GetMapping("/check-campaginaudince/{project_id}/{id}")
+    public ResponseEntity<?> checkcampgainAudience(@PathVariable Integer project_id,@PathVariable Integer id){
+        String answer = campaignService.checkCampaginCheckAudience(project_id,id);
+        return ResponseEntity.status(200).body(answer);
+    }
+
+    @GetMapping("/suggestion/{id}")
+    public ResponseEntity<?> askAI(@PathVariable Integer id){
+        String answer = campaignService.suggestAudience(id);
+        return ResponseEntity.status(200).body(answer);
+
+    }
+
+    @GetMapping("/check-audince/{project_id}/{id}")
+    public ResponseEntity<?> checkAudience(@PathVariable Integer project_id,@PathVariable Integer id){
+        String answer = campaignService.checkAudienceSubsecrition(project_id,id);
+        return ResponseEntity.status(200).body(answer);
+    }
+
+    @GetMapping("/engagement/{id}")
+    public ResponseEntity<?> campaginEngagement(@PathVariable Integer id){
+        String answer = campaignService.campaginEngagementPredictions(id);
+        return ResponseEntity.status(200).body(answer);
+
+    }
+
+    @GetMapping("/check-engagement/{project_id}/{id}")
+    public ResponseEntity<?> checkEngagament(@PathVariable Integer project_id,@PathVariable Integer id){
+        String answer = campaignService.checkEngagment(project_id,id);
+        return ResponseEntity.status(200).body(answer);
+    }
+
     @GetMapping("/get")
     public ResponseEntity<?> getCampaigns(){
         return ResponseEntity.ok(campaignService.getAllCampaigns());
