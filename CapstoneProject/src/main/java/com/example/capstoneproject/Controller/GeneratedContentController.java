@@ -83,4 +83,19 @@ public class GeneratedContentController {
     public ResponseEntity<?>checkContentCulture(@PathVariable Integer contentid,@PathVariable String culture){
         return ResponseEntity.ok(generatedContentService.checkCulture(contentid,culture));
     }
+
+    @GetMapping("/engagement-score/{content_id}")
+    public ResponseEntity<?> engagementScore(@PathVariable Integer content_id){
+        return ResponseEntity.status(200).body(generatedContentService.calculateEngagement(content_id));
+    }
+
+    @GetMapping("/evaluate-content/{content_id}")
+    public ResponseEntity<?> evaluateContent(@PathVariable Integer content_id){
+        return ResponseEntity.ok(generatedContentService.evaluateContent(content_id));
+    }
+
+    @GetMapping("/compair-first/{first_id}/to-second/{second}")
+    public ResponseEntity<?> compairContent(@PathVariable Integer first_id, @PathVariable Integer second_id){
+        return ResponseEntity.ok(generatedContentService.compairContent(first_id,second_id));
+    }
 }

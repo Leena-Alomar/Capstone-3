@@ -50,4 +50,9 @@ public class CampaignController {
         return ResponseEntity.ok(new ApiResponse("campaign canceled successfully"));
     }
 
+    @GetMapping("/expectations/{campaign_id}")
+    public ResponseEntity<?>expectations(@PathVariable Integer campaign_id){
+        return ResponseEntity.status(200).body(campaignService.expectationsOfCampaign(campaign_id));
+    }
+
 }
