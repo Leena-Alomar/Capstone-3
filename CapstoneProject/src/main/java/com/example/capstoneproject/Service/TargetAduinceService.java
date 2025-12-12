@@ -1,5 +1,6 @@
 package com.example.capstoneproject.Service;
 
+import com.example.capstoneproject.AI.OpenAi.OpenAiClient;
 import com.example.capstoneproject.API.ApiException;
 import com.example.capstoneproject.DTO.AudienceDTO;
 import com.example.capstoneproject.Model.TargetAudience;
@@ -17,6 +18,7 @@ public class TargetAduinceService {
 
     private final TargetAduinceRepository targetAduinceRepository;
     private final CampaignRepository campaignRepository;
+    private final OpenAiClient openAiClient;
 
     public List<TargetAudience> findAllUser(){
         return targetAduinceRepository.findAll();
@@ -61,5 +63,13 @@ public class TargetAduinceService {
         Campaign c = campaignRepository.findCampaignById(id);
         c.setTargetAudience(null);
         campaignRepository.save(c);
+    }
+
+    public String strategyForTargetAduince(Integer id){
+        TargetAudience t =targetAduinceRepository.findTargetAduinceById(id);
+        if(t ==null){
+            throw new ApiException("Target Aduince is not found");
+        }
+        return openAiClient.strategy(t.getMinAge(),t.getMaxAge(),t.getGender(),t.getInterest(),t.getLocation(),t.getIncomeLevel());
     }
 }

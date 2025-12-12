@@ -1,5 +1,6 @@
 package com.example.capstoneproject.Service;
 
+import com.example.capstoneproject.AI.OpenAi.OpenAiClient;
 import com.example.capstoneproject.API.ApiException;
 import com.example.capstoneproject.DTO.CampaignContentDTO;
 import com.example.capstoneproject.DTO.EvaluationDTO;
@@ -21,6 +22,7 @@ public class GeneratedContentService {
     private final TargetAduinceRepository targetAduinceRepository;
     private final AIService aiService;
     private final UserRepository userRepository;
+    private final OpenAiClient openAiClient;
 
     public List<GeneratedContent> getAllGeneratedContent(){
         return generatedContentRepository.findAll();
@@ -268,5 +270,33 @@ public class GeneratedContentService {
             throw new ApiException("something went wrong unable to check");
         }
         return evaluationDTO;
+    }
+
+    public String calculateEngagement(Integer content_id){
+        GeneratedContent content = generatedContentRepository.findGeneratedContentById(content_id);
+        if (content == null) {
+            throw new ApiException("content not found");
+        }
+        return openAiClient.calculateContentEngagementScore(content.getContent());
+    }
+
+    public String evaluateContent(Integer content_id){
+        GeneratedContent content = generatedContentRepository.findGeneratedContentById(content_id);
+        if (content == null) {
+            throw new ApiException("content not found");
+        }
+        return openAiClient.evaluateContent(content.getContent());
+    }
+
+    public String compairContent (Integer first_id, Integer second_id){
+        GeneratedContent first = generatedContentRepository.findGeneratedContentById(first_id);
+        GeneratedContent second = generatedContentRepository.findGeneratedContentById(second_id);
+        if (first==null||second==null){
+            throw new ApiException("first or second not found");
+        }
+        if (first_id==second_id){
+            throw new ApiException("its the same post");
+        }
+        return openAiClient.compairConetent(first.getContent(),second.getContent());
     }
 }
