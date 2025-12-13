@@ -66,7 +66,7 @@ public class OpenAiClient {
                 .retrieve()
                 .body(Map.class);
 
-        // ⚠️ Very simplified parsing – in real code map to a proper DTO
+
         List<Map<String, Object>> choices = (List<Map<String, Object>>) response.get("choices");
         Map<String, Object> firstChoice = choices.get(0);
         Map<String, Object> message = (Map<String, Object>) firstChoice.get("message");
@@ -119,7 +119,7 @@ public class OpenAiClient {
                 .retrieve()
                 .body(Map.class);
 
-        // ⚠️ Very simplified parsing – in real code map to a proper DTO
+
         List<Map<String, Object>> choices = (List<Map<String, Object>>) response.get("choices");
         Map<String, Object> firstChoice = choices.get(0);
         Map<String, Object> message = (Map<String, Object>) firstChoice.get("message");
@@ -176,7 +176,7 @@ public class OpenAiClient {
                 .retrieve()
                 .body(Map.class);
 
-        // ⚠️ Very simplified parsing – in real code map to a proper DTO
+
         List<Map<String, Object>> choices = (List<Map<String, Object>>) response.get("choices");
         Map<String, Object> firstChoice = choices.get(0);
         Map<String, Object> message = (Map<String, Object>) firstChoice.get("message");
@@ -228,7 +228,7 @@ public class OpenAiClient {
                 .retrieve()
                 .body(Map.class);
 
-        // ⚠️ Very simplified parsing – in real code map to a proper DTO
+
         List<Map<String, Object>> choices = (List<Map<String, Object>>) response.get("choices");
         Map<String, Object> firstChoice = choices.get(0);
         Map<String, Object> message = (Map<String, Object>) firstChoice.get("message");
@@ -266,7 +266,7 @@ public class OpenAiClient {
                 .retrieve()
                 .body(Map.class);
 
-        // ⚠️ Very simplified parsing – in real code map to a proper DTO
+
         List<Map<String, Object>> choices = (List<Map<String, Object>>) response.get("choices");
         Map<String, Object> firstChoice = choices.get(0);
         Map<String, Object> message = (Map<String, Object>) firstChoice.get("message");

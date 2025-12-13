@@ -45,4 +45,8 @@ public class Project {
 
     @ManyToOne
     private Category category;
+
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "project")
+    @PrimaryKeyJoinColumn
+    private Packaging packaging;
 }

@@ -52,7 +52,7 @@ public class GeneratedContentController {
     }
 
     @PostMapping("/translate/{contentid}")
-    public ResponseEntity<?> trendGeneratingContent(@PathVariable Integer contentid, @RequestBody InputDTO language){
+    public ResponseEntity<?> translateGeneratingContent(@PathVariable Integer contentid, @RequestBody InputDTO language){
         generatedContentService.translateContent(contentid, language);
         return ResponseEntity.ok(new ApiResponse("content translated successfully"));
     }
@@ -69,7 +69,7 @@ public class GeneratedContentController {
         return ResponseEntity.ok(new ApiResponse("content has been rejected and will be deleted after 3 days"));
     }
 
-    @PostMapping("/trend/{campaignid}")
+    @PostMapping("/language-by-name/{campaignid}")
     public ResponseEntity<?> languageByNameGeneratingContent(@PathVariable Integer campaignid){
         generatedContentService.contentLanguageBasedOnUserName(campaignid);
         return ResponseEntity.ok(new ApiResponse("content generated successfully"));
@@ -101,9 +101,9 @@ public class GeneratedContentController {
         return ResponseEntity.ok(generatedContentService.evaluateContent(content_id));
     }
 
-    @GetMapping("/compair-first/{first_id}/to-second/{second}")
+    @GetMapping("/compare-first/{first_id}/to-second/{second_id}")
     public ResponseEntity<?> compairContent(@PathVariable Integer first_id, @PathVariable Integer second_id){
-        return ResponseEntity.ok(generatedContentService.compairContent(first_id,second_id));
+        return ResponseEntity.ok(generatedContentService.compareContent(first_id,second_id));
     }
 
     @GetMapping("/status/draft")
