@@ -40,6 +40,11 @@ public class Project {
     @PrimaryKeyJoinColumn
     private Logo logo;
 
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "project")
+    @PrimaryKeyJoinColumn
+    private Packaging packaging;
+
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private Set<Campaign> Campaigns;
 

@@ -20,6 +20,9 @@ public class ProjectService {
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
     private final CategoryRepository categoryRepository;
+    private final com.example.capstoneproject.AI.Service.OpenaiService openaiService;
+
+    private int count=0;
 
     public List<Project> getAllProjects(){
         return projectRepository.findAll();
@@ -60,5 +63,30 @@ public class ProjectService {
             throw new ApiException("project not found");
         }
         projectRepository.delete(project);
+    }
+
+    public String feasibilityStudy(Integer id){
+        Project project=projectRepository.findProjectById(id);
+        String prompt = "You are a professional analyst. Prepare a feasibility study for the following project. " +
+                "Provide clear evaluation of technical, financial, operational, and legal aspects, " +
+                "highlight potential risks, benefits, and recommendations. " +
+                "Project Name: " + project.getName() +
+                "\nProject Description: " + project.getDescription();
+
+        return openaiService.askAI(prompt);
+    }
+
+    public String checkFeasibiltySubsecrition(Integer id){
+        Project project=projectRepository.findProjectById(id);
+        if(project==null){
+            throw new ApiException("the project is not found");
+        }
+        if (Boolean.FALSE.equals(project.getUser().getSubscription())){
+            if(count>=2){
+                throw new ApiException("Maximum free trials reached. Please subscribe for more");
+            }
+            count ++;
+        }
+        return feasibilityStudy(id);
     }
 }

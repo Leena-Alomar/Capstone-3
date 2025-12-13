@@ -24,7 +24,11 @@ public class CampaignService {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
     private final GeneratedContentRepository generatedContentRepository;
+
+
     private final OpenAiClient openAiClient;
+    private int count=0;
+
 
     public List<Campaign> getAllCampaigns(){
         return campaignRepository.findAll();
@@ -116,8 +120,116 @@ public class CampaignService {
 
         campaignRepository.delete(campaign);
     }
+    public String suggestAudience(Integer id){
 
-    public String expectationsOfCampaign(Integer campaign_id){
+        Campaign campaign = campaignRepository.findCampaignById(id);
+        if(campaign==null) {
+            throw new ApiException("campaign not found");
+        }
+
+        String prompt = "You are a friendly marketing assistant. Suggest an ideal target audience " +
+                "for this campaign:\n" +
+                "Name: " + campaign.getName() + "\n" +
+                "Description: " + campaign.getDescription() + "\n" +
+                "Platform: " + campaign.getPlatform() + "\n" +
+                "Goal: " + campaign.getGoal() + "\n" +
+                "Budget: " + campaign.getBudget() + "\n\n" +
+                "Provide: age range, gender, interests, income level, location.";
+
+        return openaiService.askAI(prompt);
+    }
+
+
+    public String checkAudienceSubsecrition(Integer project_id,Integer id){
+        Project project=projectRepository.findProjectById(project_id);
+        if(project==null){
+            throw new ApiException("the project is not found");
+        }
+        if (Boolean.FALSE.equals(project.getUser().getSubscription())) {
+            if(count>=2){
+                throw new ApiException("Maximum free trials reached. Please subscribe for more");
+            }
+            count ++;
+        }
+        return suggestAudience(id);
+    }
+
+    public String campaginEngagementPredictions(Integer id){
+        Campaign campaign = campaignRepository.findCampaignById(id);
+        if(campaign==null) {
+            throw new ApiException("campaign not found");
+        }
+
+        String prompt = "You are a friendly marketing assistant. Predict engagement for this campaign:\n" +
+                "Name: " + campaign.getName() + "\n" +
+                "Description: " + campaign.getDescription() + "\n" +
+                "Platform: " + campaign.getPlatform() + "\n" +
+                "Goal: " + campaign.getGoal() + "\n" +
+                "Budget: " + campaign.getBudget() + "\n" +
+                "Provide estimated reach, likes, shares, and impressions.";
+
+        return openaiService.askAI(prompt);
+    }
+
+
+    public String checkEngagment(Integer project_id,Integer id){
+        Project project=projectRepository.findProjectById(project_id);
+        if(project==null){
+            throw new ApiException("the project is not found");
+        }
+        if (Boolean.FALSE.equals(project.getUser().getSubscription())) {
+            if(count>=2){
+                throw new ApiException("Maximum free trials reached. Please subscribe for more");
+            }
+            count ++;
+        }
+        return campaginEngagementPredictions(id);
+    }
+
+    public String campaginCheckAudience(Integer id){
+        Campaign campaign = campaignRepository.findCampaignById(id);
+        if(campaign==null||campaign.getTargetAudience().getId()==null) {
+            throw new ApiException("campaign or audience not found");
+        }
+        String prompt = "You are a friendly marketing assistant. Evaluate whether the target audience " +
+                "is a good fit for this campaign. Suggest improvements if necessary.\n\n" +
+                "Campaign Details:\n" +
+                "Name: " + campaign.getName() + "\n" +
+                "Description: " + campaign.getDescription() + "\n" +
+                "Platform: " + campaign.getPlatform() + "\n" +
+                "Goal: " + campaign.getGoal() + "\n" +
+                "Budget: " + campaign.getBudget() + "\n\n" +
+                "Target Audience:\n" +
+                "Age Range: " + campaign.getTargetAudience().getMinAge() + " - " + campaign.getTargetAudience().getMaxAge() + "\n" +
+                "Gender: " + campaign.getTargetAudience().getGender() + "\n" +
+                "Interests: " + campaign.getTargetAudience().getInterest() + "\n" +
+                "Location: " + campaign.getTargetAudience().getLocation() + "\n" +
+                "Income Level: " + campaign.getTargetAudience().getIncomeLevel() + "\n\n" +
+                "Instructions: \n" +
+                "- Tell if this audience fits the campaign.\n" +
+                "- Suggest adjustments if needed (age, gender, interests, location, income level).\n" +
+                "- Provide recommendations clearly and concisely.";
+
+        return openaiService.askAI(prompt);
+    }
+
+
+    public String checkCampaginCheckAudience(Integer project_id,Integer id){
+        Project project=projectRepository.findProjectById(project_id);
+        if(project==null){
+            throw new ApiException("the project is not found");
+        }
+        if (Boolean.FALSE.equals(project.getUser().getSubscription())) {
+            if(count>=2){
+                throw new ApiException("Maximum free trials reached. Please subscribe for more");
+            }
+            count ++;
+        }
+        return campaginCheckAudience(id);
+    }
+
+
+    public String expectationsOfCampaignAmmar(Integer campaign_id){
         Campaign campaign = campaignRepository.findCampaignById(campaign_id);
         if(campaign==null) {
             throw new ApiException("campaign not found");
