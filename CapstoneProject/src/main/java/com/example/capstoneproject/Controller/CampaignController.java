@@ -41,7 +41,7 @@ public class CampaignController {
     @PutMapping("/run/{campaignid}")
     public ResponseEntity<?>runCampaign(@PathVariable Integer campaignid){
         campaignService.approveCampaign(campaignid);
-        return ResponseEntity.ok(new ApiResponse("campaign updated successfully"));
+        return ResponseEntity.ok(new ApiResponse("campaign is running now"));
     }
 
     @PutMapping("/cancel/{campaignid}")

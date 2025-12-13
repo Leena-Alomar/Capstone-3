@@ -168,6 +168,8 @@ public class GeneratedContentService {
         }
 
         GeneratedContent summarizedContent = aiService.summarizedContent(content);
+        summarizedContent.setStatus("Draft");
+        summarizedContent.setStatusChange(LocalDateTime.now());
         generatedContentRepository.save(summarizedContent);
     }
 
@@ -178,6 +180,7 @@ public class GeneratedContentService {
         }
         String language = input.getLanguage();
         GeneratedContent translatedContent = aiService.translateContent(content, language);
+        translatedContent.setStatusChange(LocalDateTime.now());
         generatedContentRepository.save(translatedContent);
     }
 
@@ -336,7 +339,7 @@ public class GeneratedContentService {
         return openAiClient.evaluateContent(content.getContent());
     }
 
-    public String compairContent (Integer first_id, Integer second_id){
+    public String compareContent(Integer first_id, Integer second_id){
         GeneratedContent first = generatedContentRepository.findGeneratedContentById(first_id);
         GeneratedContent second = generatedContentRepository.findGeneratedContentById(second_id);
         if (first==null||second==null){

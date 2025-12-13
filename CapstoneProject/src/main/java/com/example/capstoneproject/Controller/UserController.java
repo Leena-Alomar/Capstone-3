@@ -25,7 +25,6 @@ public class UserController {
         return ResponseEntity.status(200).body(new ApiResponse("the User is added"));
     }
 
-
     @PutMapping("update/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Integer id,@RequestBody User user){
         userService.updateuser(id,user);

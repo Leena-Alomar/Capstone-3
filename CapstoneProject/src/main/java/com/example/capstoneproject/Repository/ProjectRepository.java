@@ -18,4 +18,7 @@ public interface ProjectRepository extends JpaRepository<Project,Integer> {
 
     @Query("select p from Project p join p.user u where u.id = :id")
     List<Project> findProjectsOfUser(Integer id);
+
+    @Query("select c from Project c join c.packaging p where p.id =:id")
+    Project findProjectByPackagingId(@Param("id")Integer packagingId);
 }

@@ -39,8 +39,8 @@ public class User {
     private String phoneNumber;
     private Boolean subscription;
 
-    @Column(columnDefinition = "int")
-    private Integer createdCounter =0;
+    @Column(columnDefinition = "int default 0")
+    private Integer createdCounter = 0;
 
     @OneToMany(cascade = CascadeType.ALL ,mappedBy = "user", orphanRemoval = true)
     private Set<Project> projects;
