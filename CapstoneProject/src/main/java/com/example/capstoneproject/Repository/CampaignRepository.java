@@ -18,4 +18,13 @@ public interface CampaignRepository extends JpaRepository<Campaign, Integer> {
 
     List<Campaign> findCampaignByStatus(String status);
 
+    @Query("select c from Campaign c join c.project.user u where u.id =:id")
+    List<Campaign> findCampaignsOfUser(Integer id);
+
+    @Query("select c from Campaign c where c.status = :status")
+    List<Campaign> findCampaignsOfStatus(String status);
+
+    @Query("select c from Campaign c where c.platform =:platform")
+    List<Campaign> findCampaignsByPlatform(String platform);
+
 }

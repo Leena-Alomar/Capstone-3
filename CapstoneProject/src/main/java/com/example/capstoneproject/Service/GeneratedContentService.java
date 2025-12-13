@@ -347,4 +347,25 @@ public class GeneratedContentService {
         }
         return openAiClient.compairConetent(first.getContent(),second.getContent());
     }
+
+    public List<GeneratedContent> getDraftContent(){
+        List<GeneratedContent> c = generatedContentRepository.findContentByStatus("Draft");
+        if (c.isEmpty()){
+            throw new ApiException("there are no draft content");
+        }
+        return c;
+    }
+    public List<GeneratedContent> getApprovedContent(){
+        List<GeneratedContent> c = generatedContentRepository.findContentByStatus("Approved");
+        if (c.isEmpty()){
+            throw new ApiException("there are no Approved content");
+        }
+        return c;
+    }public List<GeneratedContent> getRejectedContent(){
+        List<GeneratedContent> c = generatedContentRepository.findContentByStatus("Rejected");
+        if (c.isEmpty()){
+            throw new ApiException("there are no Rejected content");
+        }
+        return c;
+    }
 }

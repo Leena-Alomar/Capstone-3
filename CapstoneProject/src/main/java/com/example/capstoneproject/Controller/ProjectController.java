@@ -39,4 +39,9 @@ public class ProjectController {
         return ResponseEntity.ok(new ApiResponse("project deleted successfully"));
     }
 
+    @GetMapping("/get/user/{id}")
+    public ResponseEntity<?> getProjects(@PathVariable Integer id){
+        return ResponseEntity.status(200).body(projectService.getProjectsOfUser(id));
+    }
+
 }
