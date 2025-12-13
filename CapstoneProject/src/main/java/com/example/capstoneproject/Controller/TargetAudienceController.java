@@ -64,13 +64,9 @@ public class TargetAudienceController {
     ) {
         return ResponseEntity.status(200).body(listAudienceService.getListFollowersCount(project_id, maxFollowers));
     }
-    @GetMapping("/test-count/{project_id}")
 
-
-    public ResponseEntity<?> test(
-            @PathVariable Integer project_id,
-            @RequestParam(defaultValue = "100") Integer maxFollowers
-    ) {
-        return ResponseEntity.status(200).body(listAudienceService.getListFollowersCount(project_id, maxFollowers));
+    @GetMapping("/strategy/{id}")
+    public ResponseEntity<?> strategy(@PathVariable Integer id){
+        return ResponseEntity.status(200).body(targetAduinceService.strategyForTargetAduince(id));
     }
 }

@@ -1,5 +1,6 @@
 package com.example.capstoneproject.Service;
 
+import com.example.capstoneproject.AI.OpenAi.OpenAiClient;
 import com.example.capstoneproject.API.ApiException;
 import com.example.capstoneproject.Model.Campaign;
 import com.example.capstoneproject.Model.GeneratedContent;
@@ -23,9 +24,11 @@ public class CampaignService {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
     private final GeneratedContentRepository generatedContentRepository;
-    private final com.example.capstoneproject.AI.Service.OpenaiService openaiService;
 
+
+    private final OpenAiClient openAiClient;
     private int count=0;
+
 
     public List<Campaign> getAllCampaigns(){
         return campaignRepository.findAll();
@@ -225,4 +228,12 @@ public class CampaignService {
         return campaginCheckAudience(id);
     }
 
+
+    public String expectationsOfCampaignAmmar(Integer campaign_id){
+        Campaign campaign = campaignRepository.findCampaignById(campaign_id);
+        if(campaign==null) {
+            throw new ApiException("campaign not found");
+        }
+        return openAiClient.campaignExpectations(campaign.getDescription(),campaign.getDurationDays(),campaign.getName(),campaign.getPlatform(),campaign.getBudget());
+    }
 }

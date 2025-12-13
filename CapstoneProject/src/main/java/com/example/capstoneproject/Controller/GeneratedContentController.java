@@ -1,6 +1,7 @@
 package com.example.capstoneproject.Controller;
 
 import com.example.capstoneproject.API.ApiResponse;
+import com.example.capstoneproject.DTO.InputDTO;
 import com.example.capstoneproject.Model.GeneratedContent;
 import com.example.capstoneproject.Service.GeneratedContentService;
 import jakarta.validation.Valid;
@@ -50,8 +51,8 @@ public class GeneratedContentController {
         return ResponseEntity.ok(new ApiResponse("content summarized successfully"));
     }
 
-    @PostMapping("/translate/{contentid}/{language}")
-    public ResponseEntity<?> trendGeneratingContent(@PathVariable Integer contentid, @PathVariable String language){
+    @PostMapping("/translate/{contentid}")
+    public ResponseEntity<?> trendGeneratingContent(@PathVariable Integer contentid, @RequestBody InputDTO language){
         generatedContentService.translateContent(contentid, language);
         return ResponseEntity.ok(new ApiResponse("content translated successfully"));
     }
@@ -69,6 +70,12 @@ public class GeneratedContentController {
     }
 
     @PostMapping("/trend/{campaignid}")
+    public ResponseEntity<?> languageByNameGeneratingContent(@PathVariable Integer campaignid){
+        generatedContentService.contentLanguageBasedOnUserName(campaignid);
+        return ResponseEntity.ok(new ApiResponse("content generated successfully"));
+    }
+
+    @PostMapping("/trend/{campaignid}")
     public ResponseEntity<?> trendGeneratingContent(@PathVariable Integer campaignid){
         generatedContentService.trendGenerateContent(campaignid);
         return ResponseEntity.ok(new ApiResponse("content generated successfully"));
@@ -79,8 +86,23 @@ public class GeneratedContentController {
         return ResponseEntity.ok(generatedContentService.evaluate(contentid,campaignid));
     }
 
-    @GetMapping("/check-culture/{contentid}/{culture}")
-    public ResponseEntity<?>checkContentCulture(@PathVariable Integer contentid,@PathVariable String culture){
+    @GetMapping("/check-culture/{contentid}")
+    public ResponseEntity<?>checkContentCulture(@PathVariable Integer contentid,@RequestBody InputDTO culture){
         return ResponseEntity.ok(generatedContentService.checkCulture(contentid,culture));
+    }
+
+    @GetMapping("/engagement-score/{content_id}")
+    public ResponseEntity<?> engagementScore(@PathVariable Integer content_id){
+        return ResponseEntity.status(200).body(generatedContentService.calculateEngagement(content_id));
+    }
+
+    @GetMapping("/evaluate-content/{content_id}")
+    public ResponseEntity<?> evaluateContent(@PathVariable Integer content_id){
+        return ResponseEntity.ok(generatedContentService.evaluateContent(content_id));
+    }
+
+    @GetMapping("/compair-first/{first_id}/to-second/{second}")
+    public ResponseEntity<?> compairContent(@PathVariable Integer first_id, @PathVariable Integer second_id){
+        return ResponseEntity.ok(generatedContentService.compairContent(first_id,second_id));
     }
 }

@@ -1,7 +1,11 @@
 package com.example.capstoneproject.AI.Service;
 
+import com.example.capstoneproject.API.ApiException;
 import com.example.capstoneproject.Model.Logo;
+import com.example.capstoneproject.Model.User;
 import com.example.capstoneproject.Repository.LogoRepository;
+import com.example.capstoneproject.Repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,16 +27,22 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class AiLogoService {
 
     private final WebClient stabilityWebClient;
+    public final UserRepository userRepository;
 
-    // WebClient bean must be defined in a @Configuration class
-    public AiLogoService(WebClient stabilityWebClient) {
-        this.stabilityWebClient = stabilityWebClient;
-    }
 
-    public byte[] generateImageTest(String prompt) {
+
+    public byte[] generateImageTest(Integer id,String prompt) {
+        User u = userRepository.findUserById(id);
+        if (u == null) {
+            throw new ApiException("User not found");
+        }
+        if (!u.getSubscription()){
+            throw new ApiException("this feature is enabled with subscription only");
+        }
         if (prompt == null || prompt.isBlank()) {
             throw new IllegalArgumentException("Prompt must not be empty");
         }

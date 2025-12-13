@@ -49,15 +49,22 @@ public class LogoController
         return ResponseEntity.status(200).body(new ApiResponse("logo deleted successfully"));
     }
 
-    @PostMapping("/generate-id/{project_id}")
-    public ResponseEntity<?> generateLogo(@PathVariable Integer project_id,@RequestBody String description ) {
-        byte[] logo = aiLogoService.generateImageTest(description);
-        logoService.save(project_id,logo);
+    @PostMapping("/generate-id/{project_id}/{user_id}")
+    public ResponseEntity<?> generateLogo(@PathVariable Integer user_id,@PathVariable Integer project_id,@RequestBody String description ) {
+        byte[] logo = aiLogoService.generateImageTest(user_id,description);
+        logoService.save(user_id,project_id,logo);
         return ResponseEntity.status(200)
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "inline; filename=\"ai-logo.png\"")  // 👈 view in browser instead of download
                 .contentType(MediaType.IMAGE_PNG)
                 .body(logo);
+    }
+
+    @DeleteMapping("/reject/{id}")
+    private ResponseEntity<?> rejectLogo(@PathVariable Integer id)
+    {
+        logoService.deleteLogoImage(id);
+        return ResponseEntity.status(200).body(new ApiResponse("logo removed and deleted successfully"));
     }
 
 }
