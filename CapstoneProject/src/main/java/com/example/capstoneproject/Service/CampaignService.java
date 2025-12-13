@@ -124,4 +124,56 @@ public class CampaignService {
         }
         return openAiClient.campaignExpectations(campaign.getDescription(),campaign.getDurationDays(),campaign.getName(),campaign.getPlatform(),campaign.getBudget());
     }
+    public List<Campaign> getCampaignsOfUser(Integer id){
+        List<Campaign> campaign = campaignRepository.findCampaignsOfUser(id);
+        if (campaign.isEmpty()) {
+            throw new ApiException("campaign not found");
+        }
+        return campaign;
+    }
+
+    public List<Campaign> getCampaignDraft(){
+        List<Campaign> c = campaignRepository.findCampaignsOfStatus("draft");
+        if (c.isEmpty()) {
+            throw new ApiException("there are not draft campaigns");
+        }
+        return c;
+    }
+    public List<Campaign> getCampaignRunning(){
+        List<Campaign> c = campaignRepository.findCampaignsOfStatus("Running");
+        if (c.isEmpty()) {
+            throw new ApiException("there are not Running campaigns");
+        }
+        return c;
+    }
+    public List<Campaign> getCampaignCompleted(){
+        List<Campaign> c = campaignRepository.findCampaignsOfStatus("Completed");
+        if (c.isEmpty()) {
+            throw new ApiException("there are not Completed campaigns");
+        }
+        return c;
+    }
+
+    public List<Campaign> getCampaignX(){
+        List<Campaign> c = campaignRepository.findCampaignsByPlatform("X");
+        if (c.isEmpty()) {
+            throw new ApiException("there are no campaigns for X");
+        }
+        return c;
+    }
+    public List<Campaign> getCampaignTikTok(){
+        List<Campaign> c = campaignRepository.findCampaignsByPlatform("TikTok");
+        if (c.isEmpty()) {
+            throw new ApiException("there are no campaigns for TikTok");
+        }
+        return c;
+    }
+    public List<Campaign> getCampaignInstagram(){
+        List<Campaign> c = campaignRepository.findCampaignsByPlatform("Instagram");
+        if (c.isEmpty()) {
+            throw new ApiException("there are no campaigns for Instagram");
+        }
+        return c;
+    }
+
 }

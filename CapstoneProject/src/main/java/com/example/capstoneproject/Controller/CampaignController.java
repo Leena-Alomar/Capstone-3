@@ -55,4 +55,36 @@ public class CampaignController {
         return ResponseEntity.status(200).body(campaignService.expectationsOfCampaign(campaign_id));
     }
 
+    @GetMapping("/get/user/{id}")
+    public ResponseEntity<?> getCampaignsByUser(@PathVariable Integer id){
+        return ResponseEntity.status(200).body(campaignService.getCampaignsOfUser(id));
+    }
+
+    @GetMapping("/status/draft")
+    public ResponseEntity<?> getCampaignsStatusDraft(){
+        return ResponseEntity.status(200).body(campaignService.getCampaignDraft());
+    }
+    @GetMapping("/status/running")
+    public ResponseEntity<?> getCampaignsStatusRunning(){
+        return ResponseEntity.status(200).body(campaignService.getCampaignRunning());
+    }
+    @GetMapping("/status/completed")
+    public ResponseEntity<?> getCampaignsStatusCompleted(){
+        return ResponseEntity.status(200).body(campaignService.getCampaignCompleted());
+    }
+
+    @GetMapping("/platform/x")
+    public ResponseEntity<?> getPlatformX(){
+        return ResponseEntity.status(200).body(campaignService.getCampaignX());
+    }
+    @GetMapping("/platform/tiktok")
+    public ResponseEntity<?> getPlatformTikTok(){
+        return ResponseEntity.status(200).body(campaignService.getCampaignTikTok());
+    }
+    @GetMapping("/platform/instagram")
+    public ResponseEntity<?> getPlatformInstagram(){
+        return ResponseEntity.status(200).body(campaignService.getCampaignInstagram());
+    }
+
+
 }

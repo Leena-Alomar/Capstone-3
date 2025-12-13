@@ -105,4 +105,17 @@ public class GeneratedContentController {
     public ResponseEntity<?> compairContent(@PathVariable Integer first_id, @PathVariable Integer second_id){
         return ResponseEntity.ok(generatedContentService.compairContent(first_id,second_id));
     }
+
+    @GetMapping("/status/draft")
+    public ResponseEntity<?>statusDraft(){
+        return ResponseEntity.status(200).body(generatedContentService.getDraftContent());
+    }
+    @GetMapping("/status/approved")
+    public ResponseEntity<?>statusApproved(){
+        return ResponseEntity.status(200).body(generatedContentService.getApprovedContent());
+    }
+    @GetMapping("/status/rejected")
+    public ResponseEntity<?>statusRejected(){
+        return ResponseEntity.status(200).body(generatedContentService.getRejectedContent());
+    }
 }

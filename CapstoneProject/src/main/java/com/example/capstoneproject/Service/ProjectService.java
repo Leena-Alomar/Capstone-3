@@ -61,4 +61,12 @@ public class ProjectService {
         }
         projectRepository.delete(project);
     }
+
+    public List<Project> getProjectsOfUser(Integer id){
+        List<Project> projects= projectRepository.findProjectsOfUser(id);
+        if (projects.isEmpty()) {
+            throw new ApiException("project not found");
+        }
+        return projects;
+    }
 }
