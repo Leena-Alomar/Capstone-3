@@ -38,6 +38,7 @@ public class AIService {
         String response = huggingFaceClient.generateText(prompt);
         return parser.generateContent(response);
     }
+
     @Value("${openai.api.key}")
     private String apiKey;
 
@@ -74,6 +75,12 @@ public class AIService {
 
     public GeneratedContent trendGenerateContent(CampaignContentDTO dto) {
         String prompt = promptBuilder.trendBasedContentGeneration(dto);
+        String response = askAI(prompt);
+        return parser.generatedContentOpenAi(response);
+    }
+
+    public GeneratedContent languageByUserName(CampaignContentDTO dto, String userName){
+        String prompt = promptBuilder.generateNewContentByUserName(dto,userName);
         String response = askAI(prompt);
         return parser.generatedContentOpenAi(response);
     }
