@@ -4,6 +4,7 @@ import com.example.capstoneproject.AI.OpenAi.OpenAiClient;
 import com.example.capstoneproject.API.ApiException;
 import com.example.capstoneproject.DTO.CampaignContentDTO;
 import com.example.capstoneproject.DTO.EvaluationDTO;
+import com.example.capstoneproject.DTO.InputDTO;
 import com.example.capstoneproject.Model.*;
 import com.example.capstoneproject.Repository.*;
 import lombok.RequiredArgsConstructor;
@@ -113,6 +114,52 @@ public class GeneratedContentService {
         user.setCreatedCounter(user.getCreatedCounter()+1);
         userRepository.save(user);
     }
+    public void contentLanguageBasedOnUserName(Integer campaign_id){
+        Campaign campaign = campaignRepository.findCampaignById(campaign_id);
+        if(campaign==null){
+            throw new ApiException("campaign not found");
+        }
+
+        Project project = projectRepository.findProjectById(campaign.getProject().getId());
+        TargetAudience audience = targetAduinceRepository.findTargetAduinceById(campaign.getTargetAudience().getId());
+        if(project==null||audience==null){
+            throw new ApiException("project or target audience not found");
+        }
+
+        User user = userRepository.findUserById(project.getUser().getId());
+        if(user==null){
+            throw new ApiException("user not found");
+        }
+
+        if(!user.getSubscription()){
+            if(user.getCreatedCounter()>5){
+                throw new ApiException("you need to subscribe for more content");
+            }
+        }
+
+        CampaignContentDTO dto= new CampaignContentDTO();
+        dto.setProjectName(project.getName());
+        dto.setProjectDescription(project.getDescription());
+        dto.setProjectType(project.getType());
+        dto.setCampaignName(campaign.getName());
+        dto.setCampaignDescription(campaign.getDescription());
+        dto.setPlatform(campaign.getPlatform());
+        dto.setGoal(campaign.getGoal());
+        dto.setTargetAudienceMinAge(audience.getMinAge());
+        dto.setTargetAudienceMaxAge(audience.getMaxAge());
+        dto.setTargetAudienceGender(audience.getGender());
+        dto.setTargetInterest(audience.getInterest());
+        dto.setTargetAudienceLocation(audience.getLocation());
+        dto.setTargetAudienceIncomeLevel(audience.getIncomeLevel());
+
+        GeneratedContent newContent = aiService.languageByUserName(dto,user.getName());
+
+        newContent.setStatus("Draft");
+        newContent.setStatusChange(LocalDateTime.now());
+        generatedContentRepository.save(newContent);
+        user.setCreatedCounter(user.getCreatedCounter()+1);
+        userRepository.save(user);
+    }
 
     public void summarizeContent(Integer content_id){
         GeneratedContent content = generatedContentRepository.findGeneratedContentById(content_id);
@@ -124,12 +171,12 @@ public class GeneratedContentService {
         generatedContentRepository.save(summarizedContent);
     }
 
-    public void translateContent(Integer content_id, String language){
+    public void translateContent(Integer content_id,InputDTO input){
         GeneratedContent content = generatedContentRepository.findGeneratedContentById(content_id);
         if(content==null){
             throw new ApiException("content not found");
         }
-
+        String language = input.getLanguage();
         GeneratedContent translatedContent = aiService.translateContent(content, language);
         generatedContentRepository.save(translatedContent);
     }
@@ -259,12 +306,13 @@ public class GeneratedContentService {
         return evaluationDTO;
     }
 
-    public EvaluationDTO checkCulture(Integer content_id, String culture){
+    public EvaluationDTO checkCulture(Integer content_id, InputDTO input){
         GeneratedContent content = generatedContentRepository.findGeneratedContentById(content_id);
         if(content==null){
             throw new ApiException("content not found");
         }
 
+        String culture = input.getCulture();
         EvaluationDTO evaluationDTO= aiService.checkCulture(content,culture);
         if(evaluationDTO==null){
             throw new ApiException("something went wrong unable to check");
