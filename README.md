@@ -46,7 +46,7 @@
 ---
 
 Rand:
-Worked on creating the AI intgration for many endpoints that generates content also summraize, translate, and evaluate it. worked on the logic of approving and rejecting a content and which to conect to the campain, created some scheduling features that complete a campaign and deleted rejected contents.
+Worked on creating the AI intgration for many endpoints that generates content also summraize, translate, and evaluate it. Worked on the logic of approving and rejecting a content and which to conect to the campain, created some scheduling features that complete a campaign and deleted rejected contents.
 
 ---
 
