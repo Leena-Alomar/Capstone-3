@@ -11,15 +11,15 @@
   Generate logo options  
 - `GET` **/logos**  
   Display generated logos  
-- `POST` **/logos/{id}/accept**  
+- `PUT` **/logos/{id}/accept**  
   Accept selected logo  
-- `POST` **/logos/{id}/reject**  
+- `PUT` **/logos/{id}/reject**  
   Reject selected logo  
 
 ---
 
 ### 📊 Campaign Analysis
-- `POST` **/campaigns/expectations**  
+- `GET` **/campaigns/expectations**  
   Get campaign expectations  
 - `POST` **/audience/analyze**  
   Analyze target audience  
