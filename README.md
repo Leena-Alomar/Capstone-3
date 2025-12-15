@@ -40,8 +40,8 @@
   Get content for X (Twitter)  
 - `GET` **/content/platform/instagram**  
   Get content for Instagram  
-- `GET` **/content/platform/linkedin**  
-  Get content for LinkedIn  
+- `GET` **/content/platform/tiktok**  
+  Get content for TikTok  
 
 ---
 
