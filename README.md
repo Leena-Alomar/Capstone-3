@@ -28,20 +28,7 @@
 - `GET` **/campaigns**  
   Get campaigns of user  
 
-### 📝 Content
-- `GET` **/content/draft**  
-  Get content in draft state  
-- `GET` **/content/approved**  
-  Get approved content  
-- `GET` **/content/published**  
-  Get published content  
 
-- `GET` **/content/platform/x**  
-  Get content for X (Twitter)  
-- `GET` **/content/platform/instagram**  
-  Get content for Instagram  
-- `GET` **/content/platform/tiktok**  
-  Get content for TikTok  
 
 ---
 
